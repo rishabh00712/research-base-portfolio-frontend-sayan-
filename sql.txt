@@ -1,0 +1,199 @@
+-- =========================================================
+-- 1. categories
+-- =========================================================
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    label VARCHAR(150),
+    position DOUBLE PRECISION NOT NULL DEFAULT 0
+);
+
+CREATE INDEX categories_position_idx
+    ON categories (position);
+
+
+-- =========================================================
+-- 2. education_and_career
+-- =========================================================
+
+CREATE TABLE education_and_career (
+    id SERIAL PRIMARY KEY,
+    heading VARCHAR(255),
+    start_date VARCHAR(50),
+    end_date VARCHAR(50),
+    university VARCHAR(255),
+    location VARCHAR(255),
+    subjects TEXT[],
+    position INTEGER DEFAULT 0
+);
+
+
+-- =========================================================
+-- 3. news
+-- =========================================================
+
+CREATE TABLE news (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    position DOUBLE PRECISION NOT NULL DEFAULT 0,
+    date DATE DEFAULT CURRENT_DATE,
+    description TEXT,
+    link TEXT,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    type VARCHAR(100),
+
+    CONSTRAINT link_format
+        CHECK (
+            link IS NULL
+            OR link ~* '^(https?://|mailto:)'
+        )
+);
+
+
+-- =========================================================
+-- 4. people
+-- =========================================================
+
+CREATE TABLE people (
+    id SERIAL PRIMARY KEY,
+    image TEXT,
+    name VARCHAR(255),
+    role VARCHAR(255),
+    profile_link TEXT
+);
+
+
+-- =========================================================
+-- 5. profile
+-- =========================================================
+
+CREATE TABLE profile (
+    id SERIAL PRIMARY KEY,
+    image TEXT,
+    lab_name VARCHAR(255),
+    short_description TEXT,
+    name VARCHAR(255),
+    long_description TEXT,
+    email VARCHAR(255),
+    number VARCHAR(50),
+    office_location VARCHAR(255),
+    department VARCHAR(255),
+    cv TEXT,
+    hobbies TEXT[],
+    one_line_description VARCHAR(255),
+    mid_description TEXT,
+    work_role TEXT[],
+    google_scholar TEXT,
+    orcid TEXT,
+    affiliations TEXT[] DEFAULT '{}'
+);
+
+
+-- =========================================================
+-- 6. projects
+-- =========================================================
+
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    image_url TEXT NOT NULL,
+    position DOUBLE PRECISION NOT NULL DEFAULT 0,
+    description TEXT NOT NULL,
+    linkedin_url TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+
+    CONSTRAINT projects_category_id_fkey
+        FOREIGN KEY (category_id)
+        REFERENCES categories(id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX projects_category_position_idx
+    ON projects (category_id, position);
+
+
+-- =========================================================
+-- 7. publications
+-- =========================================================
+
+CREATE TABLE publications (
+    id SERIAL PRIMARY KEY,
+    date DATE NOT NULL,
+    image TEXT,
+    description TEXT NOT NULL,
+    paper_link TEXT,
+    tags TEXT[] DEFAULT '{}',
+    position DOUBLE PRECISION NOT NULL DEFAULT 0
+);
+
+CREATE INDEX publications_position_idx
+    ON publications (position);
+
+
+-- =========================================================
+-- 8. research
+-- =========================================================
+
+CREATE TABLE research (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title VARCHAR(255) NOT NULL,
+    research_date DATE NOT NULL,
+    description TEXT,
+    image_url VARCHAR(500),
+    paper_url VARCHAR(500),
+    pdf_url VARCHAR(500),
+    literature_survey TEXT,
+    apparatus TEXT,
+    methodology TEXT,
+    conclusion TEXT,
+    position NUMERIC(10, 4) NOT NULL DEFAULT '1',
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_research_position
+    ON research (position);
+
+
+-- =========================================================
+-- 9. social_media_links
+-- =========================================================
+
+CREATE TABLE social_media_links (
+    id SERIAL PRIMARY KEY,
+    profile_id INTEGER,
+    name VARCHAR(100),
+    link TEXT,
+
+    CONSTRAINT social_media_links_profile_id_fkey
+        FOREIGN KEY (profile_id)
+        REFERENCES profile(id)
+        ON DELETE CASCADE
+);
+
+
+-- =========================================================
+-- 10. team_members
+-- =========================================================
+
+CREATE TABLE team_members (
+    id SERIAL PRIMARY KEY,
+    image TEXT,
+    name VARCHAR(255) NOT NULL,
+    role VARCHAR(255),
+    link TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reactions (
+  type  TEXT PRIMARY KEY,
+  count INTEGER NOT NULL DEFAULT 0 CHECK (count >= 0)
+);
+
+INSERT INTO reactions (type, count) VALUES
+  ('wow', 0),
+  ('happy', 0),
+  ('meh', 0),
+  ('pleading', 0),
+  ('sad', 0)
+ON CONFLICT (type) DO NOTHING;
