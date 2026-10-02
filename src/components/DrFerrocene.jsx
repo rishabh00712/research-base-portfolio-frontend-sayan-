@@ -6,7 +6,7 @@ import Ballpit from './Ballpit';
 import EducationCareer from './Educationcareer';
 import ContactSection from './Contactsection';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 
 /* Start fetching the moment this file is imported, so the data is usually ready
    before the person opens the page. */

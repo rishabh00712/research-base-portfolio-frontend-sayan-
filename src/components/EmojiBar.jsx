@@ -10,8 +10,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import theme from "../theme";
 
-const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || "http://localhost:5000").replace(/\/+$/, "");
-
+const BACKEND_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 const c = theme.colors;
 const STORAGE_KEY = "ej_last_reaction";
 const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 hours

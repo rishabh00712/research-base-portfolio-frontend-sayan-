@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import theme from '../theme';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 
 /* ---------- Start fetching as soon as this file is imported, and cache the result ---------- */
 let educationPromise = null;

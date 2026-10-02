@@ -5,7 +5,7 @@ import theme from '../theme';
 import Explore from './Explore';
 import News from './News';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 
 /* Start fetching the moment this file is imported (i.e. when the site first loads),
    so the data is usually ready before the person even opens the home page. */

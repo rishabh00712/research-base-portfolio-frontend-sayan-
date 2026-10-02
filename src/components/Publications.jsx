@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import theme from '../theme';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 
 /* ---------- Fetch once and cache ---------- */
 const EMPTY = { google_scholar: '', orcid: '', publications: [] };
