@@ -7,7 +7,7 @@ const HIDE_DELAY = 800; // ms of no scrolling before the header comes back
 
 const navItems = [
   { name: 'HOME', to: '/' },
-  { name: 'ABOUT ME', to: '/dr-ferrocene' },
+  { name: 'ABOUT ME', to: '/about' },
   { name: 'PEOPLE', to: '/people' },
   { name: 'RESEARCH', to: '/research' },
   { name: 'PUBLICATIONS', to: '/publications' },

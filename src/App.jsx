@@ -75,7 +75,7 @@ const App = () => {
             {/* Home renders its own hero + Explore + News */}
             <Route path="/" element={<Home />} />
             {/* DrFerrocene renders its own intro + Education/Career + Contact */}
-            <Route path="/dr-ferrocene" element={<DrFerrocene />} />
+            <Route path="/about" element={<DrFerrocene />} />
             <Route path="/people" element={<PeopleMe />} />
             {/* Research renders its own cards + detail box + popups */}
             <Route path="/research" element={<Research />} />
