@@ -86,7 +86,7 @@ const App = () => {
         </main>
 
         <Footer />
-
+ {/* Floating AI chat launcher (fixed, bottom-right on every page) */}
          {/* Floating AI chat launcher (fixed, bottom-right on every page) */}
         <AiChatOrb />
 
